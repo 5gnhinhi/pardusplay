@@ -1,4 +1,22 @@
-<main>
+<<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pardus Play Palace</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>Pardus Play Palace</h1>
+        <p>A sua central de clássicos e favoritos</p>
+    </header>
+
+    <main>
   <div class="game-grid">
     <!-- Minecraft -->
     <div class="game-card">
@@ -61,3 +79,25 @@
     </div>
   </div> <!-- Fecha .game-grid -->
 </main>
+
+
+    <footer>
+        <p>© 2025 Leopardus Team- Pardus Play Palace. Criado com ❤️ para os jogadores simples.</p>
+    </footer>
+
+    <!-- Modal do Jogo (inicialmente escondido) -->
+    <div id="game-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="fullscreen-btn" title="Tela Cheia">⛶</button>
+                <button id="close-btn" title="Fechar">×</button>
+            </div>
+            <div class="iframe-container">
+                <iframe id="game-iframe" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
