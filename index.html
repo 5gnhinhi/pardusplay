@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Área Secreta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(-45deg, #1e3c72, #2a5298, #6dd5ed, #2193b0);
+      background-size: 400% 400%;
+      animation: gradientBG 12s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 40px 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 25px;
+      letter-spacing: 1px;
+    }
+
+    input[type="password"] {
+      padding: 12px 16px;
+      width: 100%;
+      border: none;
+      border-radius: 10px;
+      margin-top: 10px;
+      font-size: 1rem;
+      outline: none;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: linear-gradient(to right, #00c6ff, #0072ff);
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 123, 255, 0.6);
+    }
+
+    .error {
+      margin-top: 15px;
+      color: #ff6b6b;
+      font-weight: bold;
+    }
+
+    .success {
+      color: #00ff9d;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🔒 Área Secreta</h1>
+    <input type="password" id="senha" placeholder="Digite a senha">
+    <br>
+    <button onclick="verificarSenha()">Entrar</button>
+    <div id="mensagem" class="error"></div>
+  </div>
+
+  <script>
+    function verificarSenha() {
+      const senha = document.getElementById('senha').value.trim().toLowerCase();
+      const mensagem = document.getElementById('mensagem');
+
+      if (senha === 'boss final') {
+        mensagem.textContent = 'Senha correta! Redirecionando...';
+        mensagem.classList.remove('error');
+        mensagem.classList.add('success');
+        setTimeout(() => {
+          window.location.href = 'games.html';
+        }, 1500);
+      } else {
+        mensagem.textContent = '❌ Senha incorreta. Tente novamente.';
+        mensagem.classList.remove('success');
+        mensagem.classList.add('error');
+      }
+    }
+  </script>
+</body>
+</html>
