@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Play Palace</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <h1>Pixel Play Palace</h1>
+        <p>A sua central de clássicos e favoritos</p>
+    </header>
+
+    <main>
+        <div class="game-grid">
+            <!-- Card do Minecraft -->
+            <div class="game-card">
+                <img src="images/minecraft.jpg" alt="Minecraft">
+                <div class="card-content">
+                    <h3>Minecraft</h3>
+                    <p>Construa, explore e sobreviva. O clássico jogo de blocos agora no seu navegador.</p>
+                    <button class="play-btn" data-game-url="https://eaglercraft.com/mc/1.8.8-wasm/">Jogar Agora</button>
+                </div>
+            </div>
+
+            <!-- Card do Wolfenstein 3D -->
+            <div class="game-card">
+                <img src="images/wolfenstein.jpg" alt="Wolfenstein 3D">
+                <div class="card-content">
+                    <h3>Wolfenstein 3D</h3>
+                    <p>O avô dos jogos de tiro em primeira pessoa. Infiltre-se no castelo e enfrente o mal.</p>
+                    <button class="play-btn" data-game-url="https://emupedia.org/emupedia-game-wolfenstein-3d-canvas/">Jogar Agora</button>
+                </div>
+            </div>
+
+            <!-- Card do Doom -->
+            <div class="game-card">
+                <img src="images/doom.jpg" alt="Doom">
+                <div class="card-content">
+                    <h3>DOOM</h3>
+                    <p>Lute contra as hordas do inferno neste clássico FPS que definiu uma geração.</p>
+                    <button class="play-btn" data-game-url="https://emupedia.org/emupedia-game-doom1/">Jogar Agora</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2023 Pixel Play Palace. Criado com ❤️ para os gamers.</p>
+    </footer>
+
+    <!-- Modal do Jogo (inicialmente escondido) -->
+    <div id="game-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="fullscreen-btn" title="Tela Cheia">⛶</button>
+                <button id="close-btn" title="Fechar">×</button>
+            </div>
+            <div class="iframe-container">
+                <iframe id="game-iframe" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
