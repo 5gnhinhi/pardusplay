@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Minecraft Unblocked</title>
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --fg: #eaeaf0;
+      --accent: #4a148c;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    /* Layout principal: o container ocupa 100% da viewport */
+    #container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(1200px 800px at 50% 30%, rgba(74,20,140,0.15), transparent 60%) var(--bg);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Iframe ocupa toda a tela */
+    #fr {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: none; /* fica oculto até carregar o conteúdo */
+      background: #000;
+    }
+
+    /* Botão grande central para iniciar */
+    .play-button {
+      padding: 20px 40px;
+      background: #000;
+      color: #fff;
+      border: 2px solid var(--accent);
+      border-radius: 14px;
+      font: 700 22px/1.2 Arial, sans-serif;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      letter-spacing: .5px;
+    }
+    .play-button:hover { background: var(--accent); }
+
+    /* Botão fixo de fullscreen */
+    .fullscreen-button {
+      padding: 10px 16px;
+      background: #000;
+      color: #fff;
+      border: 2px solid var(--accent);
+      border-radius: 10px;
+      font: 700 14px/1.2 Arial, sans-serif;
+      cursor: pointer;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 20;
+      box-shadow: 0 8px 24px rgba(0,0,0,.35);
+    }
+    .fullscreen-button:hover { background: var(--accent); }
+
+    /* Selo pequeno (opcional) */
+    #unblocked-text {
+      position: fixed;
+      bottom: 22px;
+      left: 20px;
+      margin: 0;
+      font: 700 12px/1.2 Arial, sans-serif;
+      letter-spacing: .8px;
+      color: #bdb3d6;
+      opacity: .9;
+      user-select: none;
+    }
+
+    /* Mensagens */
+    .toast {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.8);
+      color: #fff;
+      padding: 10px 14px;
+      border: 1px solid #2a2a2a;
+      border-radius: 10px;
+      font-size: 13px;
+      z-index: 30;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <iframe id="fr" title="Embed"></iframe>
+    <button class="play-button" type="button" onclick="PlayTo(this)">CLICK TO PLAY</button>
+  </div>
+  <p id="unblocked-text">G+</p>
+  <button class="fullscreen-button" type="button" onclick="enterFullscreen()">FULLSCREEN</button>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    // === CONFIGURAÇÃO ===
+    // Mantive as mesmas URLs/IDs que você forneceu.
+    window.SDK_OPTIONS = {
+      gameId: "jp112o3o4hzgrnc7zaewjkrfk282pul8",
+      onEvent: function (a) {
+        switch (a.name) {
+          case "SDK_GAME_PAUSE":
+            console.log("O jogo foi pausado para anúncio...");
+            break;
+          case "SDK_GAME_START":
+            console.log("Anúncio finalizado. Continuando jogo...");
+            break;
+          case "SDK_READY":
+            console.log("SDK pronto.");
+            break;
+        }
+      }
+    };
+
+    const DB_NAME = 'GameCacheDB';
+    const STORE_NAME = 'GameFiles';
+    const CACHE_DURATION = 90 * 24 * 60 * 60 * 1000; // 90 dias
+    const FILE_URL = 'https://cdn.jsdelivr.net/gh/okyesgoogl/mc@main/1.xml';
+    const SDK_URL  = 'https://cdn.jsdelivr.net/gh/testamalame/sef@main/sedk.js';
+
+    // === HELPERS ===
+    const $ = (sel) => document.querySelector(sel);
+    const toast = (msg, ms = 1800) => {
+      const el = $('#toast');
+      el.textContent = msg;
+      el.style.display = 'block';
+      clearTimeout(toast._t);
+      toast._t = setTimeout(() => el.style.display = 'none', ms);
+    };
+
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open(DB_NAME, 1);
+        request.onupgradeneeded = (event) => {
+          const db = event.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME, { keyPath: 'url' });
+          }
+        };
+        request.onsuccess = (event) => resolve(event.target.result);
+        request.onerror = (event) => reject(event.target.error);
+      });
+    }
+
+    async function saveToCache(url, content) {
+      const db = await openDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readwrite');
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.put({ url, content, timestamp: Date.now() });
+        req.onsuccess = () => resolve();
+        req.onerror = () => reject(new Error('Falha ao salvar no cache'));
+      });
+    }
+
+    async function getFileFromCache(url) {
+      const db = await openDB();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction(STORE_NAME, 'readonly');
+        const store = tx.objectStore(STORE_NAME);
+        const req = store.get(url);
+        req.onsuccess = async (event) => {
+          const data = event.target.result;
+          if (data && (Date.now() - data.timestamp) < CACHE_DURATION) {
+            resolve(data.content);
+          } else {
+            try {
+              const response = await fetch(url);
+              const text = await response.text();
+              await saveToCache(url, text);
+              resolve(text);
+            } catch (err) {
+              reject(err);
+            }
+          }
+        };
+        req.onerror = () => reject(new Error('Falha no IndexedDB'));
+      });
+    }
+
+    // Carrega SDK (com fallback) a partir do cache
+    async function loadSDK() {
+      try {
+        const sdkContent = await getFileFromCache(SDK_URL);
+        const script = document.createElement('script');
+        script.text = sdkContent;
+        script.id = 'gamemonetize-sdk';
+        document.head.appendChild(script);
+      } catch (err) {
+        console.warn('SDK via cache falhou, usando src direto.', err);
+        const script = document.createElement('script');
+        script.id = 'gamemonetize-sdk';
+        script.src = SDK_URL;
+        document.head.appendChild(script);
+      }
+    }
+
+    loadSDK();
+
+    // Exibe banner ao primeiro toque/clique dentro do conteúdo
+    let isAdShown = false;
+    function showAdOnClick() {
+      try {
+        if (!isAdShown && typeof sdk !== 'undefined' && typeof sdk.showBanner !== 'undefined') {
+          sdk.showBanner();
+          isAdShown = true;
+        }
+      } catch (e) {
+        console.debug('showAdOnClick error:', e);
+      }
+    }
+
+    // Inicia: injeta o XML/HTML no iframe em tela cheia
+    async function PlayTo(buttonEl) {
+      const iframe = document.getElementById('fr');
+      try {
+        const text = await getFileFromCache(FILE_URL);
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        doc.open();
+        doc.write(text);
+        doc.close();
+        iframe.style.display = 'block';
+        if (buttonEl) buttonEl.style.display = 'none';
+
+        // Listeners no documento interno para acionar anúncio
+        doc.addEventListener('pointerdown', showAdOnClick, { once: true });
+        doc.addEventListener('touchstart', showAdOnClick, { once: true });
+      } catch (err) {
+        console.error('Erro ao carregar jogo:', err);
+        toast('Não foi possível carregar o conteúdo.');
+      }
+    }
+
+    // Fullscreen real do container
+    async function enterFullscreen() {
+      const el = document.getElementById('container');
+      const requestFS = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+      if (requestFS) {
+        try {
+          await requestFS.call(el);
+          // se o jogo ainda não estiver carregado, carrega
+          if (document.getElementById('fr').style.display === 'none') {
+            PlayTo(document.querySelector('.play-button'));
+          }
+        } catch (e) {
+          console.warn('Falha no Fullscreen API, abrindo nova janela.', e);
+          openPopupFullscreen();
+        }
+      } else {
+        openPopupFullscreen();
+      }
+    }
+
+    // Alternativa: abre o conteúdo em nova aba/janela "fullscreen"
+    async function openPopupFullscreen() {
+      try {
+        const text = await getFileFromCache(FILE_URL);
+        const win = window.open('', '_blank');
+        if (win) {
+          win.document.open();
+          win.document.write(text);
+          win.document.close();
+          win.document.addEventListener('pointerdown', showAdOnClick, { once: true });
+          win.document.addEventListener('touchstart', showAdOnClick, { once: true });
+        } else {
+          toast('O navegador bloqueou a nova janela.');
+        }
+      } catch (err) {
+        console.error('Erro ao abrir em nova janela:', err);
+        toast('Falha ao abrir em nova janela.');
+      }
+    }
+
+    // Exponha no escopo global para os botões do HTML
+    window.PlayTo = PlayTo;
+    window.enterFullscreen = enterFullscreen;
+  </script>
+</body>
+</html>
