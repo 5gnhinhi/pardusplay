@@ -186,33 +186,32 @@
             </section>
             
             <section class="story-section">
-    <div class="story-box">
-         <div class="character-sprite">
-            <img src="https://i.gifer.com/embedded/download/GS3r.gif" alt="cara modelando bonecos">
-            <figcaption>:: O Fantasma na Máquina ::</figcaption>
-        </div>
-        <div class="story-text">
-            <h2>UMA CONFISSÃO...</h2>
-            <p class="typewriter"> Ok, vamos tirar isso do caminho. Não vou mentir: o rascunho inicial, umas sugestões aqui e ali... tiveram um empurrãozinho de uma IA. *GASP!* <img src="OMG.png" width="16" height="16" alt="OMG"> Mas calma. Hoje em dia sou eu quem aperta todos os parafusos e escolhe as cores cafonas. O site tem alma, prometo. Alma de um fliperama abandonado.</p>
-        </div>
-    </div>
-</section>
+                <div class="story-box">
+                     <div class="character-sprite">
+                        <img src="https://i.gifer.com/embedded/download/GS3r.gif" alt="cara modelando bonecos">
+                        <figcaption>:: O Fantasma na Máquina ::</figcaption>
+                    </div>
+                    <div class="story-text">
+                        <h2>UMA CONFISSÃO...</h2>
+                        <p class="typewriter"> Ok, vamos tirar isso do caminho. Não vou mentir: o rascunho inicial, umas sugestões aqui e ali... tiveram um empurrãozinho de uma IA. *GASP!* <img src="OMG.png" width="16" height="16" alt="OMG"> Mas calma. Hoje em dia sou eu quem aperta todos os parafusos e escolhe as cores cafonas. O site tem alma, prometo. Alma de um fliperama abandonado.</p>
+                    </div>
+                </div>
+            </section>
 
-<hr class="divider">
+            <hr class="divider">
 
-<!-- CAPÍTULO 1: LEOPARDUS TEAM -->
-<section class="story-section">
-    <div class="story-box">
-        <div class="story-text">
-            <h2>O quê foi a Leopardus?</h2>
-            
-            <!-- CORREÇÃO APLICADA AQUI -->
-            <p class="typewriter" data-text="De 2023 a 2024, existiu a Leopardus Team. Era pra ser uma grande equipe de desenvolvimento de tudo. Jogos, programas, sites, talvez até sistemas operacionais. A gente sonhava alto. Com o tempo, a liderança caiu no meu colo. Eu basicamente era o zelador, o técnico e o animador de torcida.">De 2023 a 2024, existiu a Leopardus Team. Era pra ser uma grande equipe de desenvolvimento de tudo. Jogos, programas, sites, talvez até sistemas operacionais. A gente sonhava alto. Com o tempo, a liderança caiu no meu colo. Eu basicamente era o zelador, o técnico e o animador de torcida.</p>
-            
-            <p class="typewriter"> Mas, como num filme triste, a galera foi sumindo. Um por um. No fim, sobrou eu, o eco, e umas poucas pessoas que mal falavam, eu tentava fazer algo, mas desistia, até que em dezembro de 2024 eu acabei com a equipe logo pq minha vida tava de fato horrivel, não quero dar muitos detalhes mas meu subconsciente quase me matou (literalmente) <img src="cry.jpg" width="16" height="16" alt="teto chorando 💔"> </p>            
-        </div>
-    </div>
-</section>
+            <!-- CAPÍTULO 1: LEOPARDUS TEAM -->
+            <section class="story-section">
+                <div class="story-box">
+                    <div class="story-text">
+                        <h2>O quê foi a Leopardus?</h2>
+                        <!-- ATENÇÃO: PARA GARANTIR VISIBILIDADE, O TEXTO FOI MANTIDO AQUI E NO data-text -->
+                        <p class="typewriter" data-text="De 2023 a 2024, existiu a Leopardus Team. Era pra ser uma grande equipe de desenvolvimento de tudo. Jogos, programas, sites, talvez até sistemas operacionais. A gente sonhava alto. Com o tempo, a liderança caiu no meu colo. Eu basicamente era o zelador, o técnico e o animador de torcida.">De 2023 a 2024, existiu a Leopardus Team. Era pra ser uma grande equipe de desenvolvimento de tudo. Jogos, programas, sites, talvez até sistemas operacionais. A gente sonhava alto. Com o tempo, a liderança caiu no meu colo. Eu basicamente era o zelador, o técnico e o animador de torcida.</p>
+                        <br>
+                        <p class="typewriter"> Mas, como num filme triste, a galera foi sumindo. Um por um. No fim, sobrou eu, o eco, e umas poucas pessoas que mal falavam, eu tentava fazer algo, mas desistia, até que em dezembro de 2024 eu acabei com a equipe logo pq minha vida tava de fato horrivel, não quero dar muitos detalhes mas meu subconsciente quase me matou (literalmente) <img src="cry.jpg" width="16" height="16" alt="teto chorando 💔"> </p>            
+                    </div>
+                </div>
+            </section>
             
             <!-- CAPÍTULO 2: O COMEÇO DO PALACE -->
             <section class="story-section">
@@ -225,7 +224,6 @@
                     </div>
                 </div>
             </section>
-
             
             <section class="story-section">
                 <div class="story-box">
@@ -237,12 +235,10 @@
                     </div>
                 </div>
             </section>
-            
         </main>
     </div>
 
     <script>
-        // --- PRELOADER ---
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             const container = document.getElementById('site-container');
@@ -252,66 +248,83 @@
                     preloader.style.display = 'none';
                     container.style.display = 'flex';
                 }, 800);
-            }, 1500); // Um pouco mais rápido que a home, talvez
+            }, 1500);
         });
 
-        // --- SOM DE HOVER (otimizado) ---
         const hoverAudio = new Audio('data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU'+Array(1e3).join('123'));
         function playHoverSound() {
             hoverAudio.currentTime = 0;
             hoverAudio.play();
         }
         
-        // --- EFEITO MÁQUINA DE ESCREVER E ANIMAÇÃO DE SCROLL ---
-        const storySections = document.querySelectorAll('.story-section');
-        const typewriterElements = document.querySelectorAll('.typewriter');
-
-        // Função para o efeito de máquina de escrever
+        // --- EFEITO MÁQUINA DE ESCREVER E ANIMAÇÃO DE SCROLL (VERSÃO CORRIGIDA) ---
+        
+        // Função para o efeito de máquina de escrever (inalterada)
         function typeWriter(element, text, speed = 30) {
             let i = 0;
-            element.innerHTML = ""; // Limpa o parágrafo
+            element.innerHTML = ""; // Limpa o conteúdo para iniciar a animação
             const cursor = '<span class="cursor"></span>';
             element.innerHTML = cursor;
             
             function type() {
                 if (i < text.length) {
+                    // Aqui usamos text.substring para não interpretar tags HTML no meio da digitação
                     element.innerHTML = text.substring(0, i + 1) + cursor;
                     i++;
                     setTimeout(type, speed);
                 } else {
-                    element.querySelector('.cursor').style.animation = 'blink 1s step-end infinite';
+                    // No final, insere o conteúdo HTML completo para renderizar imagens e etc
+                    element.innerHTML = text; 
+                    const finalCursor = element.querySelector('.cursor');
+                    if(finalCursor) finalCursor.style.animation = 'blink 1s step-end infinite';
                 }
             }
             type();
         }
 
-        // Observer para disparar as animações quando visíveis
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
+        document.addEventListener('DOMContentLoaded', () => {
+            const storySections = document.querySelectorAll('.story-section');
 
-                    // Inicia o typewriter para todos os parágrafos dentro da seção
-                    const paragraphs = entry.target.querySelectorAll('.typewriter');
-                    paragraphs.forEach(p => {
-                        // Garante que a animação só rode uma vez
-                        if (!p.hasAttribute('data-typed')) {
-                             const text = p.getAttribute('data-text');
-                             typeWriter(p, text);
-                             p.setAttribute('data-typed', 'true');
-                        }
-                    });
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
 
-                    // Para de observar o elemento após a primeira vez para não repetir
-                    observer.unobserve(entry.target);
-                }
+                        const paragraphs = entry.target.querySelectorAll('.typewriter');
+                        paragraphs.forEach(p => {
+                            if (!p.hasAttribute('data-typed')) {
+                                
+                                // ========= LÓGICA CORRIGIDA =========
+                                // 1. Tenta pegar o texto do 'data-text'. É a prioridade.
+                                let textToAnimate = p.getAttribute('data-text');
+                                
+                                // 2. Se não houver 'data-text', pega o conteúdo que já está dentro do parágrafo.
+                                if (!textToAnimate) {
+                                    textToAnimate = p.innerHTML;
+                                }
+
+                                // 3. Se houver algo para animar, executa.
+                                if (textToAnimate && textToAnimate.trim() !== '') {
+                                    typeWriter(p, textToAnimate);
+                                    p.setAttribute('data-typed', 'true');
+                                }
+                            }
+                        });
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+
+            storySections.forEach(section => {
+                // Antes de observar, garante que os parágrafos que usam data-text estejam vazios para a animação começar do zero
+                const paragraphsToAnimate = section.querySelectorAll('.typewriter[data-text]');
+                paragraphsToAnimate.forEach(p => {
+                    p.innerHTML = '';
+                });
+
+                observer.observe(section);
             });
-        }, { threshold: 0.2 }); // Dispara quando 20% do elemento está visível
-
-        storySections.forEach(section => {
-            observer.observe(section);
         });
-
     </script>
 </body>
 </html>
