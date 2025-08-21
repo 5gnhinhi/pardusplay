@@ -32,7 +32,6 @@
         #preloader p { font-size: 24px; text-shadow: 0 0 10px var(--primary-color); animation: pulse 1.5s infinite; }
         @keyframes pulse { 0% { opacity: 1; text-shadow: 0 0 10px var(--primary-color); } 50% { opacity: 0.4; text-shadow: 0 0 20px var(--secondary-color); } 100% { opacity: 1; text-shadow: 0 0 10px var(--primary-color); } }
 
-        /* MUDANÇA: Agora o container ocupa a tela toda */
         #site-container {
             width: 100vw;
             height: 100vh;
@@ -51,6 +50,23 @@
         main::-webkit-scrollbar-thumb { background: var(--primary-color); box-shadow: 0 0 10px var(--primary-color); }
         
         header { text-align: center; }
+        
+        /* --- ADICIONADO: Estilos para o container do título e o ícone --- */
+        .title-container {
+            display: flex;
+            justify-content: center; /* Centraliza o conjunto (imagem + texto) */
+            align-items: center;     /* Alinha verticalmente a imagem e o texto */
+            gap: 20px;               /* Espaço entre a imagem e o texto */
+        }
+        
+        .title-icon {
+            height: 70px; /* Ajuste a altura conforme necessário */
+            width: auto;  /* Mantém a proporção da imagem */
+            transform: rotate(-10deg); /* Opcional: para dar um charme de "apontando" */
+            filter: drop-shadow(0 0 8px #ff5555); /* Opcional: brilho vermelho no ícone */
+        }
+        /* --- FIM DAS ADIÇÕES --- */
+
         header h1 { font-size: 2.5rem; text-shadow: 0 0 5px #fff, 0 0 15px var(--primary-color), 0 0 30px var(--secondary-color); margin: 0; }
         header p { color: #a0a0c0; font-size: 1rem; }
 
@@ -82,6 +98,30 @@
         #game-iframe { width: 100%; height: 100%; border: none; }
     </style>
 </head>
+<body>
+
+    <div id="preloader"><p>LOADING...</p></div>
+    <audio id="background-music"></audio>
+    <button id="music-control">Music: OFF</button>
+
+    <div id="site-container">
+        <header>
+            <!-- MUDANÇA: Adicionado container para o ícone e o título -->
+            <div class="title-container">
+                <img src="mario.png" alt="Ícone do Mario" class="title-icon">
+                <h1>Pardus Play Palace</h1>
+            </div>
+            
+            <p>A sua central de clássicos e favoritos</p>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active" onmouseover="playHoverSound()">Jogos</a></li>
+                    <li><a href="filmes.html" onmouseover="playHoverSound()">Filmes</a></li>
+                    <li><a href="series.html" onmouseover="playHoverSound()">Séries</a></li>
+                    <li><a href="sobre.html" onmouseover="playHoverSound()">Sobre</a></li>
+                </ul>
+            </nav>
+        </header>
 <body>
 
     <div id="preloader"><p>LOADING...</p></div>
