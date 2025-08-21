@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Pardus Play Palace :: Cyberspace Portal ::</title>
+    <!-- As meta tags de viewport são modernas, mas vamos deixar pra não quebrar em celulares -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        /* CSS RESET MÍNIMO E CONFIGURAÇÕES GERAIS */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* 1. LAYOUT DE FUNDO E ESTILO DA PÁGINA */
+        body {
+            /* Fundo escuro com padrão de grid, um clássico! */
+            background-color: #0d0d0d;
+            background-image: 
+                linear-gradient(rgba(0, 255, 153, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 153, 0.1) 1px, transparent 1px);
+            background-size: 25px 25px;
+            font-family: 'VT323', monospace;
+            color: #00ff99; /* Verde neon para o texto */
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* 2. PRELOADER/SPLASH SCREEN */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s ease-out, visibility 0.8s ease-out;
+        }
+
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #preloader img {
+            width: 200px;
+        }
+        
+        #preloader p {
+            font-size: 24px;
+            margin-top: 20px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 10px #00ff99;
+            animation: flicker 1.5s infinite alternate;
+        }
+
+        @keyframes flicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% {
+                text-shadow:
+                0 0 4px #00ff99,
+                0 0 11px #00ff99,
+                0 0 19px #00ff99,
+                0 0 40px #0fa,
+                0 0 80px #0fa;
+                opacity: 1;
+            }
+            20%, 24%, 55% { text-shadow: none; opacity: 0.8; }
+        }
+
+        /* 3. O CONTAINER PRINCIPAL FIXO */
+        .container {
+            width: 960px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background: rgba(10, 20, 15, 0.8);
+            border: 3px solid #00ff99;
+            box-shadow: 0 0 20px #00ff99, inset 0 0 15px rgba(0, 255, 153, 0.5);
+            padding: 15px;
+        }
+        
+        /* HEADER - TÍTULO E SUBTÍTULO */
+        header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 3px double #00ff99;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 48px;
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 10px #00ff99, 0 0 20px #00ff99, 0 0 35px #00ff99;
+            animation: title-pulse 3s infinite ease-in-out;
+        }
+        
+        @keyframes title-pulse {
+            50% { text-shadow: 0 0 8px #fff, 0 0 15px #00ffff, 0 0 25px #00ffff, 0 0 45px #00ffff;}
+        }
+
+        header p {
+            font-size: 20px;
+            letter-spacing: 2px;
+            color: #99ffd6;
+        }
+
+        /* GRID DE JOGOS E CARDS */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .game-card {
+            background-color: #111;
+            /* O famoso efeito Bevel & Emboss! */
+            border: 2px solid #333;
+            box-shadow: 5px 5px 10px #000, inset 1px 1px 1px rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden; /* Garante que a imagem não vaze */
+        }
+        
+        .game-card:hover {
+            transform: scale(1.05) rotate(-1deg);
+            border-color: #00ffff;
+            box-shadow: 0 0 15px #00ffff;
+            z-index: 10;
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 2px solid #00ff99;
+            filter: saturate(1.2); /* Cores mais vibrantes */
+        }
+
+        .card-content {
+            padding: 15px;
+        }
+
+        .card-content h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 22px;
+            color: #fff;
+            margin-bottom: 10px;
+        }
+
+        .card-content p {
+            font-size: 16px;
+            line-height: 1.4;
+            height: 80px; /* Altura fixa para alinhar os botões */
+            overflow-y: auto;
+            color: #ccc;
+        }
+        /* Custom scrollbar para completar a estética */
+        .card-content p::-webkit-scrollbar { width: 5px; }
+        .card-content p::-webkit-scrollbar-track { background: #222; }
+        .card-content p::-webkit-scrollbar-thumb { background: #00ff99; }
+
+
+        /* BOTÕES ESTILO 2000s */
+        .play-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background: linear-gradient(to bottom, #444, #111);
+            border: 2px solid #666;
+            border-style: outset; /* Efeito "botão saltado" */
+            color: #00ff99;
+            font-family: 'VT323', monospace;
+            font-size: 18px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.1s ease;
+        }
+
+        .play-btn:hover {
+            background: linear-gradient(to bottom, #555, #222);
+            color: #fff;
+            box-shadow: 0 0 10px #00ffff;
+        }
+
+        .play-btn:active {
+            border-style: inset; /* Efeito "botão pressionado" */
+            background: linear-gradient(to top, #444, #111);
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 3px double #00ff99;
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+        
+        footer a {
+            color: #00ff99;
+            text-decoration: none;
+        }
+        
+        footer a:hover {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        footer img {
+            border: 1px solid #00ff99;
+            margin: 5px;
+            image-rendering: pixelated; /* Para GIFs de pixel art não ficarem borrados */
+        }
+        
+        /* ESTILOS DO MODAL DE JOGO */
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            width: 80vw;
+            height: 85vh;
+            background: #0a140f;
+            border: 3px solid #00ff99;
+            box-shadow: 0 0 30px #00ff99, inset 0 0 20px rgba(0, 255, 153, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal-header {
+            padding: 5px;
+            background: #111;
+            text-align: right;
+            border-bottom: 2px solid #333;
+        }
+
+        .modal-header button {
+            background: linear-gradient(to bottom, #444, #111);
+            border: 2px outset #666;
+            color: #00ff99;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            width: 30px;
+            height: 30px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+        .modal-header button:active { border-style: inset; }
+
+        .iframe-container {
+            flex-grow: 1;
+            padding: 10px;
+            background-color: #000;
+        }
+
+        #game-iframe {
+            width: 100%;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    
+    <!-- Tela de Carregamento (Splash Screen) -->
+    <div id="preloader">
+        <img src="https://i.gifer.com/origin/b4/b4d657e7ef262b88eb5f7ac021edda87.gif" alt="Loading GIF">
+        <p>LOADING...</p>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>Pardus Play Palace</h1>
+            <p>A sua central de clássicos e favoritos</p>
+        </header>
+
+        <main>
+            <div class="game-grid">
+                <!-- Seus cards de jogo vão aqui, o HTML deles permanece o mesmo -->
+                <!-- Minecraft -->
+                <div class="game-card">
+                    <img src="https://wallpapers.com/images/featured/minecraft-s2kxfahyg30sob8q.webp" alt="Minecraft">
+                    <div class="card-content">
+                        <h3>Minecraft</h3>
+                        <p>Construa, explore e sobreviva. O clássico jogo de blocos agora no seu navegador.</p>
+                        <button class="play-btn" data-game-url="https://eaglercraft.com/mc/1.8.8-wasm/">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <!-- Wolfenstein 3D -->
+                <div class="game-card">
+                    <img src="https://images.launchbox-app.com//bf9de0d9-d783-4fe3-8d83-ba9aad615d50.png" alt="Wolfenstein 3D">
+                    <div class="card-content">
+                        <h3>Wolfenstein 3D</h3>
+                        <p>O avô dos jogos de tiro em primeira pessoa. Infiltre-se no castelo e enfrente o regime.</p>
+                        <button class="play-btn" data-game-url="https://git.nihilogic.dk/wolf3d/">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <!-- DOOM -->
+                <div class="game-card">
+                    <img src="https://www.thumbculture.co.uk/wp-content/uploads/2021/12/Doom-1-1024x597.png" alt="Doom">
+                    <div class="card-content">
+                        <h3>DOOM</h3>
+                        <p>Lute contra as hordas do inferno neste clássico FPS que definiu uma geração.</p>
+                        <button class="play-btn" data-game-url="https://danihre.github.io/jsdoom/">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <!-- Super Mario Bros. -->
+                <div class="game-card">
+                    <img src="https://www.nintendo.com/eu/media/images/10_share_images/games_15/virtual_console_nintendo_3ds_7/SI_3DSVC_SuperMarioBros_image1600w.jpg" alt="Super Mario Bros">
+                    <div class="card-content">
+                        <h3>Super Mario Bros.</h3>
+                        <p>Salte por cogumelos, encanamentos e nostalgia nesse clássico da Nintendo.</p>
+                        <button class="play-btn" data-game-url="https://jcw87.github.io/c2-smb1/">Jogar Agora</button>
+                    </div>
+                </div>
+                
+                 <!-- Sonic: Doomsday Zone -->
+                <div class="game-card">
+                    <img src="http://img.itch.zone/aW1nLzg5MjE1MTIucG5n/315x250%23c/6lvOI7.png" alt="Doomsday Zone">
+                    <div class="card-content">
+                        <h3>Sonic: Doomsday Zone!</h3>
+                        <p>Uma versão remasterizada do <em>BOSS FINAL</em> de Sonic 3 And Knuckles! Por Recrafted Studios.</p>
+                        <button class="play-btn" data-game-url="https://html-classic.itch.zone/html/10416396/index.html">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <!-- Doki Doki -->
+                <div class="game-card">
+                    <img src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/698780/header.jpg?t=1681943582" alt="ddlc">
+                    <div class="card-content">
+                        <h3>Doki Doki Literature Club!</h3>
+                        <p>Jogo fofinho, eu acho...</p>
+                        <button class="play-btn" data-game-url="https://ddlc-online.vercel.app/">Traumatizar-se</button>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/d6a8ddcf-2467-4deb-b9e6-99220fe8c123/de8h4cc-71a58794-8878-4d3d-a5b2-7a96e84b6f64.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2Q2YThkZGNmLTI0NjctNGRlYi1iOWU2LTk5MjIwZmU4YzEyM1wvZGU4aDRjYy03MWE1ODc5NC04ODc4LTRkM2QtYTViMi03YTk2ZTg0YjZmNjQucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.bm4ZBbl7ji_ggJBEMlxP58Rk6MfWfOmZgwEnxyy_kGA" alt="pjsk">
+                    <div class="card-content">
+                        <h3>Project SEKAI</h3>
+                        <p>Cante, dance e toque com seus ídolos virtuais! Port para o Scratch.</p>
+                        <button class="play-btn" data-game-url="https://scratch.mit.edu/projects/598491618/embed">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiAoKctQMCtRnBiCaC4UmKuql161nYRakMkZwSgdOMXRFm5rXEYv0H9JxEFWg4VBZjIJrK5Dt03AhD6P_9bSbFvZEM84cPaPuoLgeuaQtA-NzOSYIQPx_dkb_6Y4M_Y_kxHxFrM2lVdjw8/s16000/o+bonde+dos+drogados.jpg" alt="gta2">
+                    <div class="card-content">
+                        <h3>Grand Theft Auto 2</h3>
+                        <p>Ação caótica e velocidade máxima! Enfrente gangues, cause destruição e domine as ruas no clássico top-down cheio de adrenalina.</p>
+                        <button class="play-btn" data-game-url="https://gamesfrog.com/games/ps1/grand-theft-auto-2/iframe/">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhnXPGT7ZY-jAlXkHiQya5Ad2aZPZIWpPHaHOWfMyV1m-XxoQdJkr9c8sPPDNPLLPHdLxZT2ZzHumZnh3FAgERwzgJlzZLLR5_sX5DB3O4V9sXCTjcCvDKxnn3zNZh_gpq2xHf_kns81kQ/s640-rw/CAPA+2.jpg" alt="gta chinatown">
+                    <div class="card-content">
+                        <h3>Grand Theft Auto: Chinatown Wars</h3>
+                        <p>Mergulhe no submundo da máfia chinesa em Liberty City!</p>
+                        <button class="play-btn" data-game-url="https://gamesfrog.com/games/nds/grand-theft-auto-chinatown-wars/iframe">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <img src="https://i.ytimg.com/vi/4VsMRHEj2CE/maxresdefault.jpg" alt="Jurassic Park">
+                    <div class="card-content">
+                        <h3>Jurassic Park (Genesis)</h3>
+                        <p>Explore, sobreviva e enfrente dinossauros ferozes em Jurassic Park para Mega Drive!</p>
+                        <button class="play-btn" data-game-url="https://gamesfrog.com/games/sega/jurassic-park/iframe">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgX_4GD_PEKVeqBMsWXezPj65RcQVdoSS20eM1at1qXFv1TTPmITYvKkMoy_5uXz1zqv3ZrMPpyQvsAfqsOVDVXSXo9TIjWkwYuM1PN-tfi3fZbPv-KllCOlyyGgSgC3_8g6dRSVZNji8w/s1600/JurassicPark.jpg" alt="Jurassic Park">
+                    <div class="card-content">
+                        <h3>Jurassic Park (SNES)</h3>
+                        <p>Explore o parque, resolva enigmas e sobreviva aos dinossauros em Jurassic Park para Super Nintendo!</p>
+                        <button class="play-btn" data-game-url="https://www.retrogames.cc/snes-games/jurassic-park-usa-rev-a.html">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <div class="game-card">
+                    <img src="https://i.ytimg.com/vi/9rMoW7VWLsU/hqdefault.jpg?v=66342b65" alt="Independence day">
+                    <div class="card-content">
+                        <h3>Independence Day</h3>
+                        <p>Os alienígenas chegaram, e a Terra precisa de você!</p>
+                        <button class="play-btn" data-game-url="https://www.retrogames.cc/embed/41886-independence-day.html">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <!-- Super Mario World -->
+                <div class="game-card">
+                <img src="https://wallpaperaccess.com/full/2171138.jpg" alt="Super Mario World">
+                    <div class="card-content">
+                        <h3>Super Mario World</h3>
+                        <p>Explore o mundo dos dinossauros com Mario e Yoshi neste clássico do Super Nintendo.</p>
+                        <button class="play-btn" data-game-url="https://gamesfrog.com/games/snes/super-mario-world/iframe">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <!-- Michael Jackson's Moonwalker -->
+                <div class="game-card">
+                <img src="https://images.launchbox-app.com/de3bcf20-b8f2-49b4-b6de-5018743cf31b.jpg" alt="Moonwalker">
+                    <div class="card-content">
+                        <h3>Moonwalker</h3>
+                        <p>AJUDE O DEUS MICHAEL JACKSON A RESGATAR AS CRIANÇAS! </p>
+                        <button class="play-btn" data-game-url="https://gamesfrog.com/games/sega/moonwalker/iframe">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <!-- Pokémon Emerald Version -->
+                <div class="game-card">
+                <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/05/may-pokemon-emerald-start-screen-pixel-art.jpg?q=50&fit=crop&w=1140&h=&dpr=1.5" alt="Pokémon Emerald Version">
+                    <div class="card-content">
+                        <h3>Pokémon Emerald</h3>
+                        <p>Torne-se um mestre Pokémon na região de Hoenn! (Não maltrate um Meowth.)</p>
+                        <button class="play-btn" data-game-url="https://gamesfrog.com/games/gba/pokemon-emerald-version/iframe">Jogar Agora</button>
+                    </div>
+                </div>
+
+                <!-- Super Mario 64 -->
+                <div class="game-card">
+                <img src="https://e.snmc.io/lk/fv/x/a8bae2b3fa28481f04a3118df22afb88/5283497" alt="Super Mario 64">
+                    <div class="card-content">
+                        <h3>Super Mario 64</h3>
+                        <p>Explore mundos 3D incríveis e colete estrelas para salvar a Princesa Peach.</p>
+                        <button class="play-btn" data-game-url="https://gamesfrog.com/games/n64/super-mario-64/iframe">Jogar Agora</button>
+                    </div>
+                </div>
+
+            </div> <!-- Fecha .game-grid -->
+        </main>
+        
+        <footer>
+            <p>© 2025 Leopardus Team - Pardus Play Palace. Criado com ❤️ para os jogadores simples (ou escolares..).</p>
+            <p><a href="policy.html">Política de Privacidade</a></p>
+            <div style="display: flex; gap: 10px; margin-top: 10px; justify-content:center;">
+                <img src="https://media1.giphy.com/media/l4pTky2EW5H38s7Je/200.gif" alt="morgan" width="60">
+                <img src="https://media.tenor.com/E13e2ad0S-UAAAAi/kasane-teto-vocaloid.gif" alt="caramel kasane" width="60">
+                <img src="https://64.media.tumblr.com/12ac3c4d51b326002f2324ae9ce17e20/474c100dd92f2541-ba/s75x75_c1/665389445214088a2ed14bc0891d4e0e561ff396.gif" alt="david" width="60">
+                <img src="https://media.tenor.com/T0bC0qOhL4gAAAAi/seth-needlemouse.gif" alt="seth" width="60">
+            </div>
+        </footer>
+    </div>
+    
+
+    <!-- Modal do Jogo (inicialmente escondido) -->
+    <div id="game-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button id="fullscreen-btn" title="Tela Cheia">⛶</button>
+                <button id="close-btn" title="Fechar">×</button>
+            </div>
+            <div class="iframe-container">
+                <iframe id="game-iframe" src="" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- LÓGICA DO PRELOADER ---
+            const preloader = document.getElementById('preloader');
+            // Esconde o preloader após 3 segundos
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 3000);
+
+            // --- LÓGICA DO MODAL (SCRIPT ORIGINAL) ---
+            const modal = document.getElementById('game-modal');
+            const iframe = document.getElementById('game-iframe');
+            const closeBtn = document.getElementById('close-btn');
+            const fullscreenBtn = document.getElementById('fullscreen-btn');
+            const playButtons = document.querySelectorAll('.play-btn');
+            
+            // Função para abrir o modal
+            function openModal(gameUrl) {
+                iframe.src = gameUrl;
+                modal.style.display = 'flex'; // Usamos flex para centralizar
+            }
+
+            // Função para fechar o modal
+            function closeModal() {
+                iframe.src = ''; // Limpa o src para parar o jogo
+                modal.style.display = 'none';
+            }
+            
+            // Event listener para os botões "Jogar Agora"
+            playButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const gameUrl = button.getAttribute('data-game-url');
+                    openModal(gameUrl);
+                });
+            });
+
+            // Event listener para fechar o modal
+            closeBtn.addEventListener('click', closeModal);
+
+            // Event listener para tela cheia
+            fullscreenBtn.addEventListener('click', () => {
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.webkitRequestFullscreen) { /* Safari */
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) { /* IE11 */
+                    iframe.msRequestFullscreen();
+                }
+            });
+            
+            // Fechar o modal clicando fora dele
+            window.addEventListener('click', (event) => {
+                if (event.target == modal) {
+                    closeModal();
+                }
+            });
+
+            // Fechar o modal com a tecla 'ESC'
+            document.addEventListener('keydown', (event) => {
+                if (event.key === "Escape" && modal.style.display === 'flex') {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
