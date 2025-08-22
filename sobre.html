@@ -25,7 +25,7 @@
             background-image: url('https://www.transparenttextures.com/patterns/dark-metal.png');
             color: var(--primary-color);
             font-family: var(--font-family);
-            cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAPFJREFUOE+11L0NAjEMBNC/tZBFcAmKNpFdwNqEG7gCN6CpI+gGTtCoIXQLeAgUruIMbeA9TZIkk8H2k3wSLy+ZHJeiyBOnbDsP2G4u62jXfT3axnPqS2gP227sFPl3P293O8BzBjns8n/R6p6jxyqf2AU1QzWvVzq5bRK53GqpjGqvVcGYWBnW2c7a++28aAB7N9t2kC5n65GP/tTvnUfOEC3jFhLwA2/GfaA2wlA8kFhPwlC0k37S70iI7BfAdoGt5GnP+gYcARfvfAV5EZgXkWWcE8AcyA+s1oJ/Ad2lOgA/KblI+CmgidKklwA3UolKA1vT4gWI/YyI8e+VUAAAAAElFTkSuQmCC'), auto;
+            cursor: url('data:image/png;base64,iVBORw0KGgoAAAANSUEUgAAABQAAAAUCAYAAACNiR0NAAAAAXNSR0IArs4c6QAAAPFJREFUOE+11L0NAjEMBNC/tZBFcAmKNpFdwNqEG7gCN6CpI+gGTtCoIXQLeAgUruIMbeA9TZIkk8H2k3wSLy+ZHJeiyBOnbDsP2G4u62jXfT3axnPqS2gP227sFPl3P293O8BzBjns8n/R6p6jxyqf2AU1QzWvVzq5bRK53GqpjGqvVcGYWBnW2c7a++28aAB7N9t2kC5n65GP/tTvnUfOEC3jFhLwA2/GfaA2wlA8kFhPwlC0k37S70iI7BfAdoGt5GnP+gYcARfvfAV5EZgXkWWcE8AcyA+s1oJ/Ad2lOgA/KblI+CmgidKklwA3UolKA1vT4gWI/YyI8e+VUAAAAAElFTkSuQmCC'), auto;
         }
 
         #preloader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; justify-content: center; align-items: center; z-index: 1000; flex-direction: column; transition: opacity 0.8s ease-out; }
@@ -50,21 +50,24 @@
         main::-webkit-scrollbar-thumb { background: var(--primary-color); box-shadow: 0 0 10px var(--primary-color); }
         
         header { text-align: center; }
-
-        /* --- NOVOS ESTILOS PARA O TÍTULO --- */
+        
         .title-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 25px; /* Espaço entre imagem e texto */
+            gap: 25px; 
         }
         
         .title-icon {
-            height: 120px; /* Deixei a imagem maior */
+            height: 120px; 
             width: auto;
             filter: drop-shadow(0 0 10px var(--secondary-color));
         }
-        /* --- FIM DOS NOVOS ESTILOS --- */
+
+        /* --- REGRA ADICIONADA --- */
+        .icon-right {
+            transform: scaleX(-1); /* Espelha a imagem horizontalmente */
+        }
         
         header h1 { font-size: 2.5rem; text-shadow: 0 0 5px #fff, 0 0 15px var(--primary-color), 0 0 30px var(--secondary-color); margin: 0; }
         
@@ -101,11 +104,11 @@
     <div id="preloader"><p>DESENTERRANDO HISTÓRIAS...</p></div>
 
     <div id="site-container">
-        <!-- ÁREA MODIFICADA -->
         <header>
             <div class="title-container">
-                <img src="HM.png" alt="Mascote apontando para o título" class="title-icon">
+                <img src="HM.png" alt="Miku Mesmerizer" class="title-icon">
                 <h1>Pardus Play Palace</h1>
+                <img src="KT.png" alt="Kasane Teto Mesmerizer" class="title-icon icon-right">
             </div>
             
             <nav>
